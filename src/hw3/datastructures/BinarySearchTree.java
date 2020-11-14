@@ -2,6 +2,7 @@ package hw3.datastructures;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Ritwik Banerjee
@@ -35,6 +36,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
     
     @Override
     public void add(T t) {
+        size++;
         BinaryTreeNode<T> currNode = root();
         while (currNode != null) {
             if (t.compareTo(currNode.element()) < 0) { // more expensive/"lesser" laptop
@@ -58,12 +60,63 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
             }
         }
 
-        root.setElement(t); // never entered while loop in the first place, tree must be empty
+        root = new BinaryTreeNode<>(t); // never entered while loop in the first place, tree must be empty
     }
     
     @Override
     public void remove(T t) {
-        // TODO: implement the delete algorithm for binary search trees
+        BinaryTreeNode<T> currNode = root();
+        BinaryTreeNode<T> parentNode = root(); // I would use null here but Intellij wouldn't stop screaming at me
+
+        while (currNode != null) {
+            if (t.compareTo(currNode.element()) < 0) {
+                parentNode = currNode;
+                currNode = currNode.left();
+            } else if (t.compareTo(currNode.element()) > 0) {
+                parentNode = currNode;
+                currNode = currNode.right();
+            } else { // node found
+                size--;
+
+                if (currNode.left() == null && currNode.right() == null) { // 0 children
+                    if (currNode == root()) {
+                        root = null; // edge case: only 1 element in BST
+                        return;
+                    }
+
+                    currNode.setParent(null); // I don't think this is required, but putting it in as per assignment specs.
+                    if (parentNode.left() == currNode) parentNode.setLeft(null);
+                    else parentNode.setRight(null);
+                } else if (currNode.left() != null && (currNode.right() != null)) { // 2 children
+                    BinaryTreeNode<T> successor = currNode.right();
+                    BinaryTreeNode<T> parentSuccessor = currNode.right();
+                    while (successor.left() != null) { // keep looking for the immediate largest element
+                        parentSuccessor = successor;
+                        successor = successor.left(); // minimum value must be the bottom-leftmost node in the right subtree
+                    }
+
+                    if (parentSuccessor.left() == successor) parentSuccessor.setLeft(null);
+                    else parentSuccessor.setRight(null);
+                    successor.setParent(parentNode);
+                    currNode = successor;
+                } else { // 1 child
+                    if (currNode == root()) { // edge case: need to remove the root, make sole child the new root
+                        if (currNode.left() != null) root = currNode.left();
+                        else root = currNode.right();
+                    }
+
+                    currNode.setParent(null);
+
+                    if (currNode.left() != null) { // single child is on left branch
+                        if (parentNode.left() == currNode) parentNode.setLeft(currNode.left());
+                        else parentNode.setRight(currNode.left());
+                    } else { // single child is on right branch
+                        if (parentNode.left() == currNode) parentNode.setLeft(currNode.right());
+                        else parentNode.setRight(currNode.right());
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -78,7 +131,24 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
      */
     @Override
     public List<BinaryTreeNode<T>> find(T t) {
-        return null; // TODO: implement the search/find algorithm for binary search trees
+        List<BinaryTreeNode<T>> output = new ArrayList<>();
+
+        BinaryTreeNode<T> currNode = root();
+        while (currNode != null) {
+            if (t.compareTo(currNode.element()) < 0) {
+                currNode = currNode.left();
+                output.add(currNode);
+            } else if (t.compareTo(currNode.element()) > 0) {
+                currNode = currNode.right();
+                output.add(currNode);
+            } else { // node found
+                output.add(currNode);
+                return output;
+            }
+        }
+
+        output.add(null); // currNode reached null and not found, add null and return
+        return output;
     }
     
     /**
