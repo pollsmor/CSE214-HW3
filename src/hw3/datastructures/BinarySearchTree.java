@@ -35,7 +35,30 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
     
     @Override
     public void add(T t) {
-        // TODO: implement the insert algorithm for binary search trees
+        BinaryTreeNode<T> currNode = root();
+        while (currNode != null) {
+            if (t.compareTo(currNode.element()) < 0) { // more expensive/"lesser" laptop
+                if (currNode.left() == null) { // empty slot found
+                    BinaryTreeNode<T> input = new BinaryTreeNode<>(t);
+                    input.setParent(currNode);
+                    currNode.setLeft(input);
+                    return;
+                }
+
+                currNode = currNode.left(); // keep heading down the tree
+            } else { // cheaper/"greater"
+                if (currNode.right() == null) {
+                    BinaryTreeNode<T> input = new BinaryTreeNode<>(t);
+                    input.setParent(currNode);
+                    currNode.setRight(input);
+                    return;
+                }
+
+                currNode = currNode.right();
+            }
+        }
+
+        root.setElement(t); // never entered while loop in the first place, tree must be empty
     }
     
     @Override

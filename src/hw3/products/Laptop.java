@@ -23,6 +23,7 @@ public class Laptop implements Comparable<Laptop> {
         this.screenSize = laptopBuilder.screenSize;
     }
 
+    // Because we want cheaper laptops to be "greater"/positive, reverse the signs.
     public int compareTo(Laptop otherLaptop) {
         return -1 * (this.getPrice() - otherLaptop.getPrice());
     }
