@@ -40,11 +40,37 @@ public class BinaryTreeNode<E> {
      * @param o
      * @return
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
-        return false;
+        BinaryTreeNode that;
+        if (o instanceof BinaryTreeNode) that = (BinaryTreeNode) o;
+        else return false; // not even the right type so return false
+
+        // Check through every connection to node for equality
+        if (element != that.element()) return false;
+
+        if (left == null) {
+            if (that.left() != null) return false;
+        } else {
+            if (left.element() != that.left().element()) return false;
+        }
+
+        if (right == null) {
+            if (that.right() != null) return false;
+        } else {
+            if (right.element() != that.right().element()) return false;
+        }
+
+        if (parent == null) {
+            if (that.parent() != null) return false;
+        } else {
+            if (parent.element() != that.parent().element()) return false;
+        }
+
+        return true; // false never got returned, must be equal
     }
-    
+
     /**
      * !!DO NOT MODIFY THIS CODE!!
      *
