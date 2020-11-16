@@ -1,5 +1,7 @@
 package hw3.products;
 
+import hw3.datastructures.BinaryTreeNode;
+
 import java.lang.Comparable;
 
 /**
@@ -24,8 +26,23 @@ public class Laptop implements Comparable<Laptop> {
     }
 
     // Because we want cheaper laptops to be "greater"/positive, reverse the signs.
+    @Override
     public int compareTo(Laptop otherLaptop) {
         return -1 * (this.getPrice() - otherLaptop.getPrice());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // check addresses are the same first
+        Laptop that;
+        if (obj instanceof Laptop) that = (Laptop) obj;
+        else return false; // not even the right type so return false
+
+        return brand.equals(that.getBrand()) &&
+                processorSpeed == that.getProcessorSpeed() &&
+                ram == that.getRam() &&
+                price == that.getPrice() &&
+                screenSize == that.getScreenSize();
     }
 
     public String getBrand()          { return brand; }

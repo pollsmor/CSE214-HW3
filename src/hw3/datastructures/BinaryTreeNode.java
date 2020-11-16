@@ -43,6 +43,8 @@ public class BinaryTreeNode<E> {
     @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true; // check addresses are the same first
+
         BinaryTreeNode that;
         if (o instanceof BinaryTreeNode) that = (BinaryTreeNode) o;
         else return false; // not even the right type so return false

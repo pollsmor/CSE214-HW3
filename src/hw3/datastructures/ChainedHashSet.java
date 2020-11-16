@@ -20,7 +20,8 @@ public class ChainedHashSet<E> implements Set<E> {
      * Once an instance is created, this table size cannot change
      */
     private final int tablesize;
-    private final ArrayList<LinkedList<E>> table;
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") // Intellij please
+    private ArrayList<LinkedList<E>> table;
     private int numOfElements;
 
     // DO NOT MODIFY THIS METHOD
@@ -37,6 +38,9 @@ public class ChainedHashSet<E> implements Set<E> {
 
         numOfElements = 0;
         table = new ArrayList<>(tablesize);
+        for (int i = 0; i < tablesize; i++) {
+            table.add(new LinkedList<>()); // fill in each slot with an empty LinkedList
+        }
     }
 
     @Override public int size() {
@@ -50,9 +54,9 @@ public class ChainedHashSet<E> implements Set<E> {
     @Override public boolean contains(E element) {
         if (element == null) throw new NullPointerException();
 
-        LinkedList<E> list = table.get(element.hashCode() % tablesize);
+        LinkedList<E> list = table.get(Math.abs(element.hashCode()) % tablesize);
         for (E item : list) {
-            if (item == element) return true;
+            if (item.equals(element)) return true;
         }
 
         return false; // couldn't find item in list that it would've mapped to, must not exist
@@ -62,7 +66,7 @@ public class ChainedHashSet<E> implements Set<E> {
         if (e == null) throw new NullPointerException();
         if (contains(e)) return false; // set already contained el, don't add again
 
-        LinkedList<E> list = table.get(e.hashCode() % tablesize);
+        LinkedList<E> list = table.get(Math.abs(e.hashCode()) % tablesize);
         list.addFirst(e);
         numOfElements++;
         return true;
@@ -71,7 +75,7 @@ public class ChainedHashSet<E> implements Set<E> {
     @Override public boolean remove(E e) {
         if (e == null) throw new NullPointerException();
         if (contains(e)) {
-            LinkedList<E> list = table.get(e.hashCode() % tablesize);
+            LinkedList<E> list = table.get(Math.abs(e.hashCode()) % tablesize);
             list.remove(e);
             numOfElements--;
             return true;
@@ -95,6 +99,21 @@ public class ChainedHashSet<E> implements Set<E> {
      */
     @Override
     public String toString() {
-        return null; // todo
+        StringBuilder output = new StringBuilder();
+        int i = 1;
+        for (LinkedList<E> list : table) {
+            output.append(i); // slot number
+            output.append(" || ");
+            for (E element : list) {
+                output.append(element);
+                output.append(" -> ");
+            }
+
+            output.delete(output.length() - 4, output.length()); // remove last extra " -> "
+            output.append("\n"); // add newline
+            i++;
+        }
+
+        return output.toString();
     }
 }

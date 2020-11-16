@@ -1,0 +1,9 @@
+BinaryTreeNode<Laptop> node1 = new BinaryTreeNode<>(laptops.get(0));
+        node1.setLeft(new BinaryTreeNode<>(laptops.get(1)));
+        node1.setRight(new BinaryTreeNode<>(laptops.get(2)));
+        node1.setParent(new BinaryTreeNode<>(laptops.get(3)));
+        BinaryTreeNode<Laptop> node2 = new BinaryTreeNode<>(laptops.get(0));
+        node2.setLeft(new BinaryTreeNode<>(laptops.get(1)));
+        node2.setRight(new BinaryTreeNode<>(laptops.get(2)));
+        node2.setParent(new BinaryTreeNode<>(laptops.get(4)));
+        System.out.println(node1.equals(node2));
