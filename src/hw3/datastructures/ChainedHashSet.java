@@ -20,7 +20,8 @@ public class ChainedHashSet<E> implements Set<E> {
      * Once an instance is created, this table size cannot change
      */
     private final int tablesize;
-    private ArrayList<LinkedList<E>> table;
+    private final ArrayList<LinkedList<E>> table;
+    private int numOfElements;
 
     // DO NOT MODIFY THIS METHOD
     public final int tablesize() { return this.tablesize; }
@@ -33,36 +34,50 @@ public class ChainedHashSet<E> implements Set<E> {
     public ChainedHashSet(int tablesize) {
         if (tablesize < 1) tablesize = 1; // in case the argument is invalid
         this.tablesize = tablesize;
-        table = new ArrayList<>(tablesize());
+
+        numOfElements = 0;
+        table = new ArrayList<>(tablesize);
     }
 
     @Override public int size() {
-        int output = 0;
-        for (LinkedList<E> list : table) {
-            for (E element : list) {
-                output++;
-            }
-        }
-
-        return output;
+        return numOfElements;
     }
 
     @Override public boolean isEmpty() {
-        return size() == 0;
+        return numOfElements == 0;
     }
 
     @Override public boolean contains(E element) {
         if (element == null) throw new NullPointerException();
 
-        return false; // todo
+        LinkedList<E> list = table.get(element.hashCode() % tablesize);
+        for (E item : list) {
+            if (item == element) return true;
+        }
+
+        return false; // couldn't find item in list that it would've mapped to, must not exist
     }
 
     @Override public boolean add(E e) {
-        return false; // todo
+        if (e == null) throw new NullPointerException();
+        if (contains(e)) return false; // set already contained el, don't add again
+
+        LinkedList<E> list = table.get(e.hashCode() % tablesize);
+        list.addFirst(e);
+        numOfElements++;
+        return true;
     }
 
     @Override public boolean remove(E e) {
-        return false; // todo
+        if (e == null) throw new NullPointerException();
+        if (contains(e)) {
+            LinkedList<E> list = table.get(e.hashCode() % tablesize);
+            list.remove(e);
+            numOfElements--;
+            return true;
+        }
+
+        return false; // element nowhere to be found, nothing to remove
     }
 
     /**
