@@ -1,5 +1,8 @@
 package hw3.datastructures;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 /**
  * This class implements the {@link Set} interface. It offers constant time performance (on average) for the basic
  * operations <code>add</code>, <code>remove</code>, <code>containt</code>, and <code>size</code>, under the simple
@@ -17,6 +20,7 @@ public class ChainedHashSet<E> implements Set<E> {
      * Once an instance is created, this table size cannot change
      */
     private final int tablesize;
+    private ArrayList<LinkedList<E>> table;
 
     // DO NOT MODIFY THIS METHOD
     public final int tablesize() { return this.tablesize; }
@@ -24,19 +28,32 @@ public class ChainedHashSet<E> implements Set<E> {
     // DO NOT MODIFY THIS METHOD
     public final double loadfactor() { return size() / (double) tablesize; }
 
-    public ChainedHashSet()              { this(10); }
+    public ChainedHashSet() { this(10); }
 
-    public ChainedHashSet(int tablesize) { this.tablesize = tablesize; }
+    public ChainedHashSet(int tablesize) {
+        if (tablesize < 1) tablesize = 1; // in case the argument is invalid
+        this.tablesize = tablesize;
+        table = new ArrayList<>(tablesize());
+    }
 
     @Override public int size() {
-        return 0; // todo
+        int output = 0;
+        for (LinkedList<E> list : table) {
+            for (E element : list) {
+                output++;
+            }
+        }
+
+        return output;
     }
 
     @Override public boolean isEmpty() {
-        return false; // todo
+        return size() == 0;
     }
 
     @Override public boolean contains(E element) {
+        if (element == null) throw new NullPointerException();
+
         return false; // todo
     }
 

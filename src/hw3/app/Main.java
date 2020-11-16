@@ -20,18 +20,6 @@ import hw3.datastructures.BinaryTreeNode;
 public class Main {
 
     public static void main(String... args) {
-        /*
-        BinaryTreeNode<Integer> node1 = new BinaryTreeNode<>(30);
-        node1.setLeft(new BinaryTreeNode<>(15));
-        node1.setRight(new BinaryTreeNode<>(40));
-        node1.setParent(new BinaryTreeNode<>(20));
-        BinaryTreeNode<Integer> node2 = new BinaryTreeNode<>(30);
-        node2.setLeft(new BinaryTreeNode<>(15));
-        node2.setRight(new BinaryTreeNode<>(40));
-        node2.setParent(new BinaryTreeNode<>(20));
-        System.out.println(node1.equals(node2));
-         */
-
         System.out.println("Enter product instances (format: <brand>,<processor-speed>,<memory>,<price>,<screen-size>):");
         Scanner      scanner = new Scanner(System.in);
         List<Laptop> laptops = new ArrayList<>();
