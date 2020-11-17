@@ -36,16 +36,14 @@ public class MyMain {
         BinaryTreeNode<Laptop> node1 = new BinaryTreeNode<>(laptops.get(0));
         node1.setLeft(new BinaryTreeNode<>(laptops.get(1)));
         node1.setRight(new BinaryTreeNode<>(laptops.get(2)));
-        node1.setParent(new BinaryTreeNode<>(laptops.get(3)));
         BinaryTreeNode<Laptop> node2 = new BinaryTreeNode<>(laptops.get(0));
-        node2.setLeft(new BinaryTreeNode<>(laptops.get(1)));
+        node2.setLeft(new BinaryTreeNode<>(laptops.get(3)));
         node2.setRight(new BinaryTreeNode<>(laptops.get(2)));
-        node2.setParent(new BinaryTreeNode<>(laptops.get(4)));
-        System.out.println("Node 1 and node 2 have different parents. Are they equal: " +
+        System.out.println("Node 1 and node 2 have different left children. Are they equal: " +
                 node1.equals(node2));
 
-        System.out.println("Setting the parent of node 2 to be the same as the parent of node 1.");
-        node2.setParent(new BinaryTreeNode<>(laptops.get(3)));
+        System.out.println("Setting the left child of node 2 to be the same as the left child of node 1.");
+        node2.setLeft(new BinaryTreeNode<>(laptops.get(1)));
         System.out.println("Are they equal now: " + node1.equals(node2));
 
         System.out.println("========================================");
