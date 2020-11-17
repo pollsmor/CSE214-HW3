@@ -87,22 +87,29 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
                     currNode.setParent(null); // I don't think this is required, but putting it in as per assignment specs.
                     if (parentNode.left() == currNode) parentNode.setLeft(null);
                     else parentNode.setRight(null);
+
+                    return;
                 } else if (currNode.left() != null && (currNode.right() != null)) { // 2 children
                     BinaryTreeNode<T> successor = currNode.right();
-                    BinaryTreeNode<T> parentSuccessor = currNode.right();
+                    BinaryTreeNode<T> parentSuccessor = currNode;
                     while (successor.left() != null) { // keep looking for the immediate largest element
                         parentSuccessor = successor;
                         successor = successor.left(); // minimum value must be the bottom-leftmost node in the right subtree
                     }
 
+                    // Works out that the edge case of the successor being the sole element in the right subtree is handled without else and instead using if/elif.
                     if (parentSuccessor.left() == successor) parentSuccessor.setLeft(null);
-                    else parentSuccessor.setRight(null);
-                    successor.setParent(parentNode);
-                    currNode = successor;
+                    else if (parentSuccessor.right() == successor) parentSuccessor.setRight(null);
+
+                    currNode.setElement(successor.element());
+                    currNode.setParent(parentNode);
+                    if (parentNode == root()) currNode.setParent(null); // edge case: element being removed is the root
+                    return;
                 } else { // 1 child
                     if (currNode == root()) { // edge case: need to remove the root, make sole child the new root
                         if (currNode.left() != null) root = currNode.left();
                         else root = currNode.right();
+                        return;
                     }
 
                     currNode.setParent(null);
@@ -114,6 +121,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
                         if (parentNode.left() == currNode) parentNode.setLeft(currNode.right());
                         else parentNode.setRight(currNode.right());
                     }
+
+                    return;
                 }
             }
         }
@@ -136,11 +145,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
         BinaryTreeNode<T> currNode = root();
         while (currNode != null) {
             if (t.compareTo(currNode.element()) < 0) {
+                output.add(currNode);
                 currNode = currNode.left();
-                output.add(currNode);
             } else if (t.compareTo(currNode.element()) > 0) {
-                currNode = currNode.right();
                 output.add(currNode);
+                currNode = currNode.right();
             } else { // node found
                 output.add(currNode);
                 return output;

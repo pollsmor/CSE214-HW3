@@ -10,7 +10,6 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import hw3.datastructures.BinaryTreeNode;
 
 /**
  * !!DO NOT MODIFY THIS CODE!!
