@@ -35,10 +35,10 @@ public class BinaryTreeNode<E> {
     public void setParent(BinaryTreeNode<E> node) { this.parent = node; }
     
     /**
-     * TODO: check equality between two nodes such that it extends to checking for equality between two trees rooted at these nodes.
+     * Checks equality between two nodes such that it extends to checking for equality between two trees rooted at these nodes.
      *
-     * @param o
-     * @return
+     * @param o The object to be checked for equality
+     * @return  Whether the specified object is equal to the current object.
      */
     @SuppressWarnings("unchecked")
     @Override

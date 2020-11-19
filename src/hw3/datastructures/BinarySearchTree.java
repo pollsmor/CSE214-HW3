@@ -33,7 +33,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
         root = null;
         size = 0;
     }
-    
+
+    /**
+     * Adds a specified element into the binary search tree.
+     *
+     * @param t The element to be added.
+     */
     @Override
     public void add(T t) {
         size++;
@@ -62,7 +67,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
 
         root = new BinaryTreeNode<>(t); // never entered while loop in the first place, tree must be empty
     }
-    
+
+    /**
+     * Removes a specified element from the binary search tree.
+     * @param t The element to be removed.
+     */
     @Override
     public void remove(T t) {
         BinaryTreeNode<T> currNode = root();

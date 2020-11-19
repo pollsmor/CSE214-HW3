@@ -25,12 +25,28 @@ public class Laptop implements Comparable<Laptop> {
         this.screenSize = laptopBuilder.screenSize;
     }
 
-    // Because we want cheaper laptops to be "greater"/positive, reverse the signs.
+    /**
+     * Compares the current laptop object with another laptop object by their price, in which a cheaper laptop is "greater".
+     *
+     * @param otherLaptop   The other laptop to be compared with
+     * @return              A positive value if the current laptop is cheaper,
+     *                      A negative value if the current laptop is more expensive,
+     *                      0 if both laptops are equal in price.
+     */
     @Override
     public int compareTo(Laptop otherLaptop) {
+        // Because we want cheaper laptops to be "greater"/positive, reverse the signs.
         return -1 * (this.getPrice() - otherLaptop.getPrice());
     }
 
+    /**
+     * Checks equality between two objects, and if they are of the Laptop type, check the equality
+     * of their laptop's specifications.
+     *
+     * @param obj The object to be checked for equality
+     * @return  Whether the specified object is equal to the current object, and if they are of the Laptop type, check the equality
+     *          of their laptop's specifications.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true; // check addresses are the same first

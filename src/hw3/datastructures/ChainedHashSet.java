@@ -43,14 +43,27 @@ public class ChainedHashSet<E> implements Set<E> {
         }
     }
 
+    /**
+     * @return the number of elements in the hash set.
+     */
     @Override public int size() {
         return numOfElements;
     }
 
+    /**
+     * @return <code>true</code> if the set is empty, <code>false</code> otherwise.
+     */
     @Override public boolean isEmpty() {
         return numOfElements == 0;
     }
 
+    /**
+     * Returns <code>true</code> if this set contains the specified element, and <code>false</code> otherwise.
+     *
+     * @param element the element whose presence in this set is to be tested
+     * @return <code>true</code> if this set contains the specified element
+     * @throws NullPointerException if the specified element is null
+     */
     @Override public boolean contains(E element) {
         if (element == null) throw new NullPointerException();
 
@@ -62,9 +75,19 @@ public class ChainedHashSet<E> implements Set<E> {
         return false; // couldn't find item in list that it would've mapped to, must not exist
     }
 
+    /**
+     * Adds the specified element to this set if it is not already present. If this set already contains the element,
+     * the call leaves the set unchanged and returns <code>false</code>. This ensures that a set never contains
+     * duplicate elements.
+     *
+     * @param e the element to be added to this set
+     * @return <code>true</code> if this set did not already contain {@literal e}, and <code>false</code>
+     * otherwise
+     * @throws NullPointerException if {@literal e} is null
+     */
     @Override public boolean add(E e) {
         if (e == null) throw new NullPointerException();
-        if (contains(e)) return false; // set already contained el, don't add again
+        if (contains(e)) return false; // hashtable already contained el, don't add again
 
         LinkedList<E> list = table.get(Math.abs(e.hashCode()) % tablesize);
         list.addFirst(e);
@@ -72,6 +95,14 @@ public class ChainedHashSet<E> implements Set<E> {
         return true;
     }
 
+    /**
+     * Removes the specified element from this set if it is present, and returns {@code true} if this set contained the
+     * element (or equivalently, if this set changed as a result of the call).
+     *
+     * @param e the element to be removed from this set, if present
+     * @return <code>true</code> if this set contained the specified element, and <code>false</code> otherwise
+     * @throws NullPointerException if the specified element is null
+     */
     @Override public boolean remove(E e) {
         if (e == null) throw new NullPointerException();
         if (contains(e)) {
