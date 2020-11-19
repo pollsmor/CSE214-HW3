@@ -29,7 +29,7 @@ public class InOrderTraversal<E> extends Traversal<E> {
      * @param node  The node that the traversal is currently working on
      * @param list  The list that has been built that this function will add on to
      */
-    public void buildList(BinaryTreeNode<E> node, List<E> list) {
+    private void buildList(BinaryTreeNode<E> node, List<E> list) {
         if (node.left() != null) buildList(node.left(), list);
 
         list.add(node.element());

@@ -70,6 +70,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements BinaryTree<T> 
 
     /**
      * Removes a specified element from the binary search tree.
+     *
      * @param t The element to be removed.
      */
     @Override
